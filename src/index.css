@@ -3,3 +3,19 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    background: linear-gradient(220.55deg, #ffeb3a 0%, #4def8e 100%);
+}
+
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container {
+    max-width: 350px;
+    margin: auto;
+}

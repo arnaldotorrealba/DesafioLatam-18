@@ -6,9 +6,9 @@ function App() {
     const [messages, setMessages] = useState([]);
 
     const handleValidationErrors = (messages) => {
-        if(messages.length > 0) {
+        if (messages.length > 0) {
             setMessages(messages);
-        } else{
+        } else {
             setMessages([{
                 message: "Registro exitoso!",
                 color: 'success'
@@ -16,7 +16,12 @@ function App() {
         }
     }
 
-    return <Registro handleValidationErrors={handleValidationErrors} messages={messages} />;
+    return (
+        <Registro
+            handleValidationErrors={handleValidationErrors}
+            messages={messages}
+        />
+    )
 }
 
 export default App;

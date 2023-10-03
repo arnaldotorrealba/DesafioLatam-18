@@ -28,13 +28,21 @@ export const Formulario = ({handleValidationErrors}) => {
         });
     };
 
+    const applyTrim = ({target}) => {
+        const { value, name } = target;
+        setformState({
+            ...formState,
+            [name]: value.trim(),
+        });
+    }
+
     const validations = () => {
         const validations = []
 
         if(username.trim().length === 0 || 
         email.trim().length === 0 ||
-        password.trim().length === 0 ||
-        passwordConfirm.trim().length === 0) {
+        password.length === 0 ||
+        passwordConfirm.length === 0) {
             validations.push({
                 message: 'Complete todos los campos.',
                 color: 'danger'
@@ -63,6 +71,7 @@ export const Formulario = ({handleValidationErrors}) => {
 
 
 
+
     return (
         <div className="row">
             <div className="col">
@@ -74,6 +83,7 @@ export const Formulario = ({handleValidationErrors}) => {
                         name="username"
                         value={username}
                         onChange={handleInputChange}
+                        onBlur={applyTrim}
                     />
                     <input
                         className="form-control my-2"
@@ -82,6 +92,7 @@ export const Formulario = ({handleValidationErrors}) => {
                         name="email"
                         value={email}
                         onChange={handleInputChange}
+                        onBlur={applyTrim}
                     />
                     <input
                         className="form-control my-2"

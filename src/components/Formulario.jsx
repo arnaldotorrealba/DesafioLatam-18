@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Alert } from "./Alert";
 
 const initialForm = {
     username: "",
@@ -8,18 +7,16 @@ const initialForm = {
     passwordConfirm: "",
 };
 
-export const Formulario = () => {
+export const Formulario = ({handleValidationErrors}) => {
     const [formState, setformState] = useState(initialForm);
 
     const { username, email, password, passwordConfirm } = formState;
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-
-        // TODO: validar formato de email.
-
-        if (password === passwordConfirm) {
-            console.log("Contraseñas son iguales");
+        handleValidationErrors(validations());
+        if(validations().length === 0){
+            setformState(initialForm)
         }
     };
 
@@ -30,6 +27,50 @@ export const Formulario = () => {
             [name]: value,
         });
     };
+
+    const applyTrim = ({target}) => {
+        const { value, name } = target;
+        setformState({
+            ...formState,
+            [name]: value.trim(),
+        });
+    }
+
+    const validations = () => {
+        const validations = []
+
+        if(username.trim().length === 0 || 
+        email.trim().length === 0 ||
+        password.length === 0 ||
+        passwordConfirm.length === 0) {
+            validations.push({
+                message: 'Complete todos los campos.',
+                color: 'danger'
+            })
+        }
+
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
+
+        if(!emailRegex.test(email.trim())) {
+            validations.push({
+                message: 'Ingrese un email válido.',
+                color: 'danger',
+            });
+        }
+
+        if (!(password === passwordConfirm)) {
+            validations.push({
+                message: 'Las contraseñas no coinciden.',
+                color: 'danger'
+            });
+        }
+
+        return validations;
+
+    }
+
+
+
 
     return (
         <div className="row">
@@ -42,14 +83,16 @@ export const Formulario = () => {
                         name="username"
                         value={username}
                         onChange={handleInputChange}
+                        onBlur={applyTrim}
                     />
                     <input
                         className="form-control my-2"
-                        type="email"
+                        type="text"
                         placeholder="tuemail@ejemplo.com"
                         name="email"
                         value={email}
                         onChange={handleInputChange}
+                        onBlur={applyTrim}
                     />
                     <input
                         className="form-control my-2"
@@ -70,7 +113,6 @@ export const Formulario = () => {
                     <button type="submit" className="btn btn-success">
                         Registrase
                     </button>
-                    <Alert />
                 </form>
             </div>
         </div>

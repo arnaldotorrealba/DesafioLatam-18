@@ -7,7 +7,7 @@ const initialForm = {
     passwordConfirm: "",
 };
 
-export const Formulario = ({handleValidationErrors}) => {
+export const Formulario = ({ handleValidationErrors }) => {
     const [formState, setformState] = useState(initialForm);
 
     const { username, email, password, passwordConfirm } = formState;
@@ -15,8 +15,8 @@ export const Formulario = ({handleValidationErrors}) => {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         handleValidationErrors(validations());
-        if(validations().length === 0){
-            setformState(initialForm)
+        if (validations().length === 0) {
+            setformState(initialForm);
         }
     };
 
@@ -28,49 +28,48 @@ export const Formulario = ({handleValidationErrors}) => {
         });
     };
 
-    const applyTrim = ({target}) => {
+    const applyTrim = ({ target }) => {
         const { value, name } = target;
         setformState({
             ...formState,
             [name]: value.trim(),
         });
-    }
+    };
 
     const validations = () => {
-        const validations = []
+        const validations = [];
 
-        if(username.trim().length === 0 || 
-        email.trim().length === 0 ||
-        password.length === 0 ||
-        passwordConfirm.length === 0) {
+        if (
+            username.trim().length === 0 ||
+            email.trim().length === 0 ||
+            password.length === 0 ||
+            passwordConfirm.length === 0
+        ) {
             validations.push({
-                message: 'Complete todos los campos.',
-                color: 'danger'
-            })
+                message: "Complete todos los campos.",
+                color: "danger",
+            });
+            return validations;
         }
 
         const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
 
-        if(!emailRegex.test(email.trim())) {
+        if (!emailRegex.test(email.trim())) {
             validations.push({
-                message: 'Ingrese un email válido.',
-                color: 'danger',
+                message: "Ingrese un email válido.",
+                color: "danger",
             });
         }
 
         if (!(password === passwordConfirm)) {
             validations.push({
-                message: 'Las contraseñas no coinciden.',
-                color: 'danger'
+                message: "Las contraseñas no coinciden.",
+                color: "danger",
             });
         }
 
         return validations;
-
-    }
-
-
-
+    };
 
     return (
         <div className="row">

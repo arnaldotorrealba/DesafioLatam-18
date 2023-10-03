@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Alert } from "./Alert";
 
 const initialForm = {
     username: "",
@@ -8,20 +7,48 @@ const initialForm = {
     passwordConfirm: "",
 };
 
-export const Formulario = () => {
+export const Formulario = ({handleValidationErrors}) => {
     const [formState, setformState] = useState(initialForm);
 
     const { username, email, password, passwordConfirm } = formState;
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-
-        // TODO: validar formato de email.
-
-        if (password === passwordConfirm) {
-            console.log("Contraseñas son iguales");
-        }
+        handleValidationErrors(validations());
     };
+
+    const validations = () => {
+        const validations = []
+
+        if(username.trim().length === 0 || 
+        email.trim().length === 0 ||
+        password.trim().length === 0 ||
+        passwordConfirm.trim().length === 0) {
+            validations.push({
+                message: 'Complete todos los campos.',
+                color: 'danger'
+            })
+        }
+
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
+
+        if(!emailRegex.test(email)) {
+            validations.push({
+                message: 'Ingrese un email válido.',
+                color: 'danger',
+            });
+        }
+
+        if (!(password === passwordConfirm)) {
+            validations.push({
+                message: 'Las contraseñas no coinciden.',
+                color: 'danger'
+            });
+        }
+
+        return validations;
+
+    }
 
     const handleInputChange = ({ target }) => {
         const { value, name } = target;
@@ -45,7 +72,7 @@ export const Formulario = () => {
                     />
                     <input
                         className="form-control my-2"
-                        type="email"
+                        type="text"
                         placeholder="tuemail@ejemplo.com"
                         name="email"
                         value={email}
@@ -70,7 +97,6 @@ export const Formulario = () => {
                     <button type="submit" className="btn btn-success">
                         Registrase
                     </button>
-                    <Alert />
                 </form>
             </div>
         </div>

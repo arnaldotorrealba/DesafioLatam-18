@@ -15,6 +15,17 @@ export const Formulario = ({handleValidationErrors}) => {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         handleValidationErrors(validations());
+        if(validations().length === 0){
+            setformState(initialForm)
+        }
+    };
+
+    const handleInputChange = ({ target }) => {
+        const { value, name } = target;
+        setformState({
+            ...formState,
+            [name]: value,
+        });
     };
 
     const validations = () => {
@@ -32,7 +43,7 @@ export const Formulario = ({handleValidationErrors}) => {
 
         const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
 
-        if(!emailRegex.test(email)) {
+        if(!emailRegex.test(email.trim())) {
             validations.push({
                 message: 'Ingrese un email válido.',
                 color: 'danger',
@@ -50,13 +61,7 @@ export const Formulario = ({handleValidationErrors}) => {
 
     }
 
-    const handleInputChange = ({ target }) => {
-        const { value, name } = target;
-        setformState({
-            ...formState,
-            [name]: value,
-        });
-    };
+
 
     return (
         <div className="row">

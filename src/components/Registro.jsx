@@ -7,7 +7,6 @@ export const Registro = ({ handleValidationErrors, messages }) => {
         <main className="container text-center bg-white p-3 rounded-4">
             <h1>Crea una cuenta</h1>
             <div>
-                {/* TODO: El ícono debe enviarse mediante Props */}
                 <div className="w-100 d-flex justify-content-center gap-2">
                     <SocialButton iconClass={"fa-brands fa-facebook"} />
                     <SocialButton iconClass={"fa-brands fa-github"} />
@@ -17,13 +16,11 @@ export const Registro = ({ handleValidationErrors, messages }) => {
                     <p className="col">O usa tu email para registrarte</p>
                 </div>
                 <Formulario handleValidationErrors={handleValidationErrors} />
-                {
-                    messages.length > 0 ?
-                        messages.map(({ message, color }, index) => (
-                            <Alert key={index} message={message} color={color} />
-                        )) :
-                        ''
-                }
+                {messages.length > 0
+                    ? messages.map(({ message, color }, index) => (
+                          <Alert key={index} message={message} color={color} />
+                      ))
+                    : ""}
             </div>
         </main>
     );

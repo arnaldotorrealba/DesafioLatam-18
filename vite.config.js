@@ -3,9 +3,9 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
-    base: "/DesafioLatam-18/",
-    build: {
-        outDir: "./docs",
-    },
-});
+  plugins: [react()],
+  base: '/react-states-challenge/',
+  build: {
+    outDir: './docs'
+  }
+})

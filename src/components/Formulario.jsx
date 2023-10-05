@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {validations} from "../helpers/formValidations.js";
 
 const initialForm = {
     username: "",
@@ -8,21 +9,21 @@ const initialForm = {
 };
 
 export const Formulario = ({ handleValidationErrors }) => {
-    const [formState, setformState] = useState(initialForm);
+    const [formState, setFormState] = useState(initialForm);
 
     const { username, email, password, passwordConfirm } = formState;
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        handleValidationErrors(validations());
-        if (validations().length === 0) {
-            setformState(initialForm);
+        handleValidationErrors(validations(formState));
+        if (validations(formState).length === 0) {
+            setFormState(initialForm);
         }
     };
 
     const handleInputChange = ({ target }) => {
         const { value, name } = target;
-        setformState({
+        setFormState({
             ...formState,
             [name]: value,
         });
@@ -30,47 +31,12 @@ export const Formulario = ({ handleValidationErrors }) => {
 
     const applyTrim = ({ target }) => {
         const { value, name } = target;
-        setformState({
+        setFormState({
             ...formState,
             [name]: value.trim(),
         });
     };
-
-    const validations = () => {
-        const validations = [];
-
-        if (
-            username.trim().length === 0 ||
-            email.trim().length === 0 ||
-            password.length === 0 ||
-            passwordConfirm.length === 0
-        ) {
-            validations.push({
-                message: "Complete todos los campos.",
-                color: "danger",
-            });
-            return validations;
-        }
-
-        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$/;
-
-        if (!emailRegex.test(email.trim())) {
-            validations.push({
-                message: "Ingrese un email válido.",
-                color: "danger",
-            });
-        }
-
-        if (!(password === passwordConfirm)) {
-            validations.push({
-                message: "Las contraseñas no coinciden.",
-                color: "danger",
-            });
-        }
-
-        return validations;
-    };
-
+    
     return (
         <div className="row">
             <div className="col">
